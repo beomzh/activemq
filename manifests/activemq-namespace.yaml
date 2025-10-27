@@ -1,0 +1,8 @@
+# Activemq Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: activemq
+spec: {}
+status: {}

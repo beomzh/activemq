@@ -1,0 +1,11 @@
+# ActiveMQ Role
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: activemq-role
+  namespace: activemq
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "endpoints", "persistentvolumeclaims", "events", "configmaps", "secrets"]
+  verbs: ["get", "list", "watch", "create", "delete", "update", "patch"]
+

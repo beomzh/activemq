@@ -1,0 +1,17 @@
+# 61616: OpenWire protocol
+# 61614: WebSocket protocol
+# 8161: HTTP protocol for web console
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: activemq-config
+  namespace: activemq
+data:
+  activemq.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="amq-broker" dataDirectory="/opt/activemq/data">
+      <transportConnectors>
+        <transportConnector name="openwire" uri="tcp://0.0.0.0:61616"/>
+        <transportConnector name="websocket" uri="ws://0.0.0.0:61614"/>
+      </transportConnectors>
+    </broker>

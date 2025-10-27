@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: activemq
+  namespace: activemq
+spec:
+  serviceName: activemq
+  replicas: 1
+  selector:
+    matchLabels:
+      app: activemq
+  template:
+    metadata:
+      labels:
+        app: activemq
+    spec:
+      serviceAccountName: activemq-sa
+      containers:
+      - name: activemq
+        image: rmohr/activemq:5.15.9
+        ports:
+        - containerPort: 61616
+          name: openwire
+        - containerPort: 8161
+          name: web
+        - containerPort: 61614
+          name: websocket
+        env:
+        - name: ACTIVEMQ_USER
+          valueFrom:
+            secretKeyRef:
+              name: activemq-secret
+              key: ACTIVEMQ_USER
+        - name: ACTIVEMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: activemq-secret
+              key: ACTIVEMQ_PASSWORD
+        volumeMounts:
+        - name: config
+          mountPath: /opt/activemq/conf/activemq.xml
+          subPath: activemq.xml
+        - name: data
+          mountPath: /opt/activemq/data
+      volumes:
+      - name: config
+        configMap:
+          name: activemq-config
+      - name: data
+        persistentvolumeclaims:
+          claimName: activemq-data
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: data
+  #   spec:
+  #     accessModes: [ "ReadWriteOnce" ]
+  #     resources:
+  #       requests:
+  #         storage: 2Gi
+  #     storageClassName: standard

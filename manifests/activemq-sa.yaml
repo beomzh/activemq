@@ -1,0 +1,7 @@
+# Activemq Service Account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: null
+  name: activemq-sa
+  namespace: activemq
