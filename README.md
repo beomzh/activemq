@@ -15,3 +15,4 @@ ActiveMQ
 1. https://hub.docker.com/r/rmohr/activemq
 2. https://github.com/ssong-openmaru-io/cop-activemq-classic-demo
 3. https://github.com/rmohr/docker-activemq?tab=readme-ov-file
+4. https://activemq.apache.org/components/classic/documentation/xml-configuration 

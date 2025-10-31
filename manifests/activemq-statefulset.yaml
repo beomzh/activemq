@@ -15,9 +15,21 @@ spec:
         app: activemq
     spec:
       serviceAccountName: activemq-sa
+      securityContext:                      # 보안 설정
+        runAsNonRoot: true        
+        runAsUser: 1000           
+        runAsGroup: 1000          
+        fsGroup: 1000             
+        seccompProfile:
+          type: RuntimeDefault   
       containers:
       - name: activemq
         image: rmohr/activemq:5.15.9
+        securityContext:
+          allowPrivilegeEscalation: false   # 권한 상승 금지
+          capabilities:                     # 리눅스 커널 권한 제거
+            drop:
+            - "ALL"
         ports:
         - containerPort: 61616
           name: openwire
@@ -47,14 +59,8 @@ spec:
         configMap:
           name: activemq-config
       - name: data
-        persistentvolumeclaims:
+        persistentVolumeClaim:
           claimName: activemq-data
-  # volumeClaimTemplates:
-  # - metadata:
-  #     name: data
-  #   spec:
-  #     accessModes: [ "ReadWriteOnce" ]
-  #     resources:
-  #       requests:
-  #         storage: 2Gi
-  #     storageClassName: standard
+      
+        
+    
