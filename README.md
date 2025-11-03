@@ -23,7 +23,8 @@ kubectl create -f demo/consumer/consumer.yaml
 
 kubectl logs activemq-consumer
 
-
+producer **push** broker ->
+consumer **pull** broker
 
 ## 참고
 1. https://hub.docker.com/r/rmohr/activemq
