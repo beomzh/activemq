@@ -1,0 +1,7 @@
+*.log
+*.class
+*.jar
+*.lst
+
+demo/consumer/target
+demo/producer/target

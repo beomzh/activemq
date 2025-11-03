@@ -1,0 +1,65 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: activemq-producer
+#   namespace: activemq
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: producer
+#   template:
+#     metadata:
+#       labels:
+#         app: producer
+#     spec:
+#       serviceAccountName: activemq-sa
+#       securityContext: 
+#         runAsNonRoot: true        
+#         runAsUser: 1000           
+#         runAsGroup: 1000          
+#         fsGroup: 1000             
+#         seccompProfile:
+#           type: RuntimeDefault   
+#       containers:
+#       - name: producer
+#         image: registry.cop.beomzh.local:8443/apps/activemq-producer:latest
+#         env:
+#         - name: BROKER_URL
+#           value: tcp://activemq.activemq.svc.cluster.local:61616
+#         securityContext:
+#           allowPrivilegeEscalation: false   # 권한 상승 금지
+#           capabilities:                     # 리눅스 커널 권한 제거
+#             drop:
+#             - ALL
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: activemq-producer
+  namespace: activemq
+  labels:
+    app: producer
+spec:
+  serviceAccountName: activemq-sa
+  restartPolicy: Never   
+  securityContext: 
+    runAsNonRoot: true        
+    runAsUser: 1000           
+    runAsGroup: 1000          
+    fsGroup: 1000             
+    seccompProfile:
+      type: RuntimeDefault   
+  containers:
+  - name: producer
+    image: registry.cop.beomzh.local:8443/apps/activemq-producer:latest
+    env:
+    - name: BROKER_URL
+      value: tcp://activemq.activemq.svc.cluster.local:61616
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+

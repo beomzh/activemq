@@ -8,7 +8,7 @@ metadata:
   namespace: activemq
 rules:
   - apiGroups: [""]
-    resources: ["secrets", "configmaps", "persistentvolumeclaims"]
+    resources: ["secrets", "configmaps", "persistentvolumeclaims","deployment"]
     verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1

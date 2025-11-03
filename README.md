@@ -12,6 +12,19 @@ ActiveMQ Broker
 61614 WS    (since `rmohr/activemq:5.12.1`)
 ```
 
+## 테스트 방법 
+kubectl create -f demo/producer/producer.yaml
+
+kubectl logs activemq-producer
+
+- **demo/producer/src/main/java/com/producer/ProducerExample.java 소스에서 보낼 메시지 변경 가능**
+
+kubectl create -f demo/consumer/consumer.yaml 
+
+kubectl logs activemq-consumer
+
+
+
 ## 참고
 1. https://hub.docker.com/r/rmohr/activemq
 2. https://github.com/ssong-openmaru-io/cop-activemq-classic-demo

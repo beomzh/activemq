@@ -16,7 +16,7 @@ public class ProducerExample {
         Queue queue = session.createQueue("TEST.QUEUE");
 
         MessageProducer producer = session.createProducer(queue);
-        TextMessage message = session.createTextMessage("Hello from Java Producer!");
+        TextMessage message = session.createTextMessage("Consumer! 메세지 받았나?");
         producer.send(message);
 
         System.out.println("Sent message: " + message.getText());
