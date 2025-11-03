@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault   
       containers:
       - name: activemq
-        image: rmohr/activemq:5.15.9
+        image: apache/activemq-classic:5.19.0
         securityContext:
           allowPrivilegeEscalation: false   # 권한 상승 금지
           capabilities:                     # 리눅스 커널 권한 제거
@@ -37,23 +37,33 @@ spec:
           name: web
         - containerPort: 61614
           name: websocket
-        env:
-        - name: ACTIVEMQ_USER
-          valueFrom:
-            secretKeyRef:
-              name: activemq-secret
-              key: ACTIVEMQ_USER
-        - name: ACTIVEMQ_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: activemq-secret
-              key: ACTIVEMQ_PASSWORD
+        env: 
+        - name: ACTIVEMQ_TMP
+          value: /tmp
+        # - name: ACTIVEMQ_USER
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: activemq-secret
+        #       key: ACTIVEMQ_USER
+        # - name: ACTIVEMQ_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: activemq-secret
+        #       key: ACTIVEMQ_PASSWORD
         volumeMounts:
         - name: config
-          mountPath: /opt/activemq/conf/activemq.xml
+          mountPath: /opt/apache-activemq/conf/activemq.xml 
           subPath: activemq.xml
+        - name: config
+          mountPath: /opt/apache-activemq/conf/jetty.xml 
+          subPath: jetty.xml
+        - name: activemq-credentials
+          mountPath: /opt/apache-activemq/conf/credentials.properties
+          subPath: credentials.properties
         - name: data
-          mountPath: /opt/activemq/data
+          mountPath: /opt/apache-activemq/data
+        - name: tmp-volume                  # tmp 경로에 권한이없어 write 에러가 발생
+          mountPath: /tmp
       volumes:
       - name: config
         configMap:
@@ -61,6 +71,11 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: activemq-data
-      
+      - name: tmp-volume
+        emptyDir: {}
+      - name: activemq-credentials
+        secret:
+          secretName: activemq-secret
+        
         
     

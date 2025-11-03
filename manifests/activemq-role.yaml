@@ -1,11 +1,27 @@
 # ActiveMQ Role
+# 추후 role  적용 예정 
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: activemq-role
   namespace: activemq
 rules:
-- apiGroups: [""]
-  resources: ["pods", "services", "endpoints", "persistentvolumeclaims", "events", "configmaps", "secrets"]
-  verbs: ["get", "list", "watch", "create", "delete", "update", "patch"]
+  - apiGroups: [""]
+    resources: ["secrets", "configmaps", "persistentvolumeclaims"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: activemq-rolebinding
+  namespace: activemq
+subjects:
+  - kind: ServiceAccount
+    name: activemq-sa
+    namespace: activemq
+roleRef:
+  kind: Role
+  name: activemq-role
+  apiGroup: rbac.authorization.k8s.io
 
