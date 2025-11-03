@@ -1,5 +1,6 @@
 # activemq
-ActiveMQ
+ActiveMQ Broker
+- 메시지를 큐(Queue)와 토픽(Topic)에 저장하고 송수신을 관리하는 서버
 
 ## Port Map
 ```bash
